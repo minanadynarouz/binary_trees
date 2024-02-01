@@ -2,52 +2,52 @@
 
 /**
  * binary_tree_height - measures the height of a binary tree
- * @tree: pointer to the root node of the tree to traverse
- * Return: 0 if Null, otherwise return height - 1
+ * @tree: pointer to the root node of the tree to measure the height of
+ *
+ * Return: the height of the tree. If tree is NULL, return 0
  */
-
 size_t binary_tree_height(const binary_tree_t *tree)
 {
-	size_t heightLeft, heightRight;
+	size_t left, right;
 
 	if (tree == NULL)
 		return (0);
-
-	heightLeft = 0;
-	heightRight = 0;
-	heightLeft = tree->left ? 1 + binary_tree_height(tree->left) : 0;
-	heightRight = tree->right ? 1 + binary_tree_height(tree->right) : 0;
-	return (heightLeft > heightRight ? heightLeft : heightRight);
+	left = binary_tree_height(tree->left);
+	right = binary_tree_height(tree->right);
+	if (left >= right)
+		return (1 + left);
+	return (1 + right);
 }
 
 /**
  * binary_tree_level - perform a function on a specific level of a binary tree
  * @tree: pointer to the root of the tree
- * @level: level of the tree to perform a function on
+ * @l: level of the tree to perform a function on
  * @func: function to perform
+ *
+ * Return: void
  */
-
-void binary_tree_level(const binary_tree_t *tree,
-		size_t level, void (*func)(int))
+void binary_tree_level(const binary_tree_t *tree, size_t l, void (*func)(int))
 {
 	if (tree == NULL)
 		return;
-	if (level == 1)
+	if (l == 1)
 		func(tree->n);
-	else if (level > 1)
+	else if (l > 1)
 	{
-		binary_tree_level(tree->left, level - 1, func);
-		binary_tree_level(tree->right, level - 1, func);
+		binary_tree_level(tree->left, l - 1, func);
+		binary_tree_level(tree->right, l - 1, func);
 	}
 }
 
 /**
- * binary_tree_levelorder - goes in binary tree using level-order traversal
+ * binary_tree_levelorder - traverses a binary tree using level-order traversal
  * @tree: pointer to the root node of the tree to traverse
- * @func: pointer to a function to call for each node
- * Return: pointer to the lowest common ancestor node or NULL
+ * @func: pointer to a function to call for each node.
+ * The value in the node must be passed as a parameter to this function
+ *
+ * Return: void
  */
-
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
 	size_t h, i;
